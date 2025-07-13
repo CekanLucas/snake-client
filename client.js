@@ -1,13 +1,14 @@
 const net = require('net');
 const chalk = require('chalk');
+const {IP, PORT} = require('./constants');
 
 /**
  * Establishes connection with the game server
  */
 const connect = function() {
   const conn = net.createConnection({ 
-    host: '172.46.0.236',
-    port: 50541
+    host: IP,
+    port: PORT
   });
   // interpret incoming data as text
   conn.setEncoding('utf8'); 
@@ -28,20 +29,15 @@ const connect = function() {
       )
     }
   )
-  conn.write("Name: LIC");
-  conn.write("Move: left");
-  conn.write("Move: up");
-  conn.write("Move: down");
-  conn.write("Move: right");
   return conn;
 }
 
-// let i = 0; 
-// const numConn = 100
-// while(i < numConn){
-//   connect();
-//   i++;
-// }
+let i = 0; 
+const numConn = 2
+while(i < numConn){
+  connect();
+  i++;
+}
 
 module.exports = {
   connect
