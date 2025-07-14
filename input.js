@@ -1,55 +1,65 @@
 const chalk = require('chalk');
+
 // Stores the active TCP connection object.
 
-let connection;
+
 
 /**
  * Setup User Interface 
  * Specifically, so that we can handle user input via stdin
- */
-const setupInput = function(conn) {
-  const stdin = process.stdin;
-  connection = conn;
-  stdin.setRawMode(true);
-  stdin.setEncoding('utf8');
-  stdin.resume();
-  stdin.on('data' , handleUserInput);
-//   let i = 0; 
-// const numConn = 100
-// while(i < numConn){
-//   connection.write("Move: left");
-//   i++;
-// }
-  // connection.write();
-  return stdin;
-}
+*/
+const setupInput = (conn) => {
 
-const handleUserInput = (key) => {
-  //random function
+  const handleUserInput = (key) => {
 
-   switch(key) {
+  switch (key) {
     case 'w': // up 
-      connection.write("Move: up");
+      conn.write("Move: up");
       break;
     case 's': // down
-      connection.write("Move: down");
+      conn.write("Move: down");
       break;
     case 'a': // left
-      connection.write("Move: left");
+      conn.write("Move: left");
       break;
     case 'd': // right
-      connection.write("Move: right");
+      conn.write("Move: right");
       break;
     case 'e': // right
-      connection.write("Say: We are Legion");
-    break;
+      conn.write("Say: We are Legion");
+      break;
     case '\u0003':
+      console.log("ctrl+c pressed");
       process.stdout.write(
         chalk.red('Exiting\n')
       );
-      process.exit(1);
+      process.exit();
   }
 }
+
+
+
+
+
+  const stdin = process.stdin;
+  stdin.setRawMode(true);
+  stdin.setEncoding('utf8');
+  stdin.resume();
+  stdin.on('data', handleUserInput);
+  //   let i = 0; 
+  // const numConn = 100
+  // while(i < numConn){
+  //   connection.write("Move: left");
+  //   i++;
+  // }
+  // connection.write();
+
+
+
+  return stdin;
+}
+
+
 
 module.exports = {
   setupInput
